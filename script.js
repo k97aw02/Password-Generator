@@ -1,21 +1,21 @@
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
+var numArray = ['0123456789'];
+var lowerArray = ['abcdefghijklmnopqrstuvwxyz'];
+var upperArray =['ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
+var specialArray = ['?<>!@#$%^&*()=+'];
+var passwordArray = [];
+var result = [];
 
-var numArray = ["1", "2", "3"];
-var lowerArray = ["a", "b", "c"];
-var upperArray =["A", "B", "C"];
-var specialArray = ["!","@","#"];
-
-
-function getOptions() {
+function generatePassword() {
     var passwordLength = parseInt(prompt("How long"));
     if(isNaN(passwordLength) === true) {
         alert("must be number");
-        return;
+        return; 
     }
    
-    if(passwordLength < 8) {
+    if (passwordLength < 8) {
         alert("outside the parameters");
         return;
     }
@@ -24,52 +24,45 @@ function getOptions() {
         return;
     }
 
-    var hasNum = confirm("Ok num");
-    var hasLower = confirm("Ok lower");
+    passwordLength = parseInt(passwordLength)
 
-    if (hasNum === false && hasLower === false) {
+    var hasNum = confirm("Ok to include number");
+    var hasLower = confirm("Ok to include lower case letters");
+    var hasUpper = confirm("Ok to include Upper Case letters");
+    var hasSpecial = confirm("ok to include special characters");
+
+    if (hasNum === false && hasLower === false && hasUpper === false && hasSpecial === false) {
         alert("must choose one");
         return;
     }
-    var passOptions = {
-        length: passwordLength,
-        hasNum,
-        hasLower,
-
+ 
+    if (hasNum === true) {
+        passwordArray = passwordArray.concat(numArray);
     }
-    return passOptions;
-}
-
-function getRandom(arr) {
-  var index = Math.floor(Math.random * arr.length);
-   var digit = arr[index];
-   return digit;
-}
-function generatePassword() {
-    var options = getOptions();
-    var superArray = [];
-    var result = [];
-
-   if (options.hasNum) {
-        superArray = superArray.concat(hasNum);
+    if (hasLower === true) {
+        passwordArray = passwordArray.concat(lowerArray);
+    }
+    if (hasUpper === true) {
+        passwordArray = passwordArray.concat(upperArray);
+    }
+    if (hasSpecial === true) {
+        passwordArray = passwordArray.concat(specialArray);
     }
 
-    for (var i = 0; i < options.length; i++) {
-        var passwordDigit = getRandom(superArray);
+    for (var i = 0; i < passwordLength.length; i++) {
+        var passwordDigit = getRandom(passwordArray);
         result.push(passwordDigit)
         console.log(result)
-    }
-    return result.join("")
+    };
+    return result.join("");
  
-}   
+};   
 // Write password to the #password input
-// function writePassword() {
-//   var password = generatePassword();
-//   var passwordText = document.querySelector("#password");
-
-//   passwordText.value = password;
-
-// }
+function writePassword() {
+    var password = generatePassword();
+    var passwordText = document.querySelector("#password");
+    passwordText.value = password;
+ }
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", generatePassword);
