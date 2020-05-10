@@ -15,6 +15,8 @@ function generatePassword() {
         return; 
     }
    
+        console.log(passwordLength);
+
     if (passwordLength < 8) {
         alert("outside the parameters");
         return;
@@ -24,12 +26,16 @@ function generatePassword() {
         return;
     }
 
-    passwordLength = parseInt(passwordLength)
 
     var hasNum = confirm("Ok to include number");
     var hasLower = confirm("Ok to include lower case letters");
     var hasUpper = confirm("Ok to include Upper Case letters");
     var hasSpecial = confirm("ok to include special characters");
+
+        console.log(hasNum);
+        console.log(hasLower);
+        console.log(hasUpper);
+        console.log(hasSpecial);
 
     if (hasNum === false && hasLower === false && hasUpper === false && hasSpecial === false) {
         alert("must choose one");
@@ -49,8 +55,9 @@ function generatePassword() {
         passwordArray = passwordArray.concat(specialArray);
     }
 
-    for (var i = 0; i < passwordLength.length; i++) {
-        var passwordDigit = getRandom(passwordArray);
+
+    for (var i = 0; i < passwordLength; i++) {
+        var passwordDigit = Math.floor(Math.random() * passwordArray.length);
         result.push(passwordDigit)
         console.log(result)
     };
@@ -66,3 +73,4 @@ function writePassword() {
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", generatePassword);
+
