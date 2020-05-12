@@ -1,27 +1,26 @@
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
-var numArray = ['0123456789'];
-var lowerArray = ['abcdefghijklmnopqrstuvwxyz'];
-var upperArray =['ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
-var specialArray = ['?<>!@#$%^&*()=+'];
-var passwordArray = [];
-var result = [];
+var numArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+var lowerArray = ['a', 'b', 'c', 'd', 'e', 'f'];
+var upperArray = ['A', 'B', 'C'];
+var specialArray = ['?', '<',];
 
-function generatePassword() {
+
+function getPasswordOptions() {
     var passwordLength = parseInt(prompt("How long"));
-    if(isNaN(passwordLength) === true) {
+    if (isNaN(passwordLength) === true) {
         alert("must be number");
-        return; 
+        return;
     }
-   
-        console.log(passwordLength);
+
+    console.log(passwordLength);
 
     if (passwordLength < 8) {
         alert("outside the parameters");
         return;
     }
-    if(passwordLength > 128) {
+    if (passwordLength > 128) {
         alert("outside the parameters2");
         return;
     }
@@ -32,45 +31,61 @@ function generatePassword() {
     var hasUpper = confirm("Ok to include Upper Case letters");
     var hasSpecial = confirm("ok to include special characters");
 
-        console.log(hasNum);
-        console.log(hasLower);
-        console.log(hasUpper);
-        console.log(hasSpecial);
 
     if (hasNum === false && hasLower === false && hasUpper === false && hasSpecial === false) {
         alert("must choose one");
         return;
     }
- 
-    if (hasNum === true) {
+    var passwordOptions = {
+        passwordLength: passwordLength,
+        hasLower,
+        hasNum,
+        hasUpper,
+        hasSpecial,
+    }
+    return passwordOptions;
+};
+function constructPassword() {
+    var options = getPasswordOptions()
+    console.log(options)
+
+    var passwordArray = [];
+    var result = [];
+    if (options.hasNum === true) {
         passwordArray = passwordArray.concat(numArray);
     }
-    if (hasLower === true) {
+    console.log(passwordArray)
+    if (options.hasLower === true) {
         passwordArray = passwordArray.concat(lowerArray);
     }
-    if (hasUpper === true) {
+    console.log(passwordArray)
+    if (options.hasUpper === true) {
         passwordArray = passwordArray.concat(upperArray);
     }
-    if (hasSpecial === true) {
+    console.log(passwordArray)
+    if (options.hasSpecial === true) {
         passwordArray = passwordArray.concat(specialArray);
     }
+    console.log(passwordArray)
 
 
-    for (var i = 0; i < passwordLength; i++) {
-        var passwordDigit = Math.floor(Math.random() * passwordArray.length);
+    for (var i = 0; i < options.passwordLength; i++) {
+        var index = Math.floor(Math.random() * passwordArray.length);
+        var passwordDigit = passwordArray[index]
         result.push(passwordDigit)
         console.log(result)
     };
     return result.join("");
- 
-};   
+
+};
 // Write password to the #password input
 function writePassword() {
-    var password = generatePassword();
+    var password = constructPassword();
     var passwordText = document.querySelector("#password");
     passwordText.value = password;
- }
-
+}
+console.log(password)
 // Add event listener to generate button
-generateBtn.addEventListener("click", generatePassword);
+generateBtn.addEventListener("click", writePassword);
+
 
